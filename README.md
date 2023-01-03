@@ -63,4 +63,4 @@ Display selection in main form title bar for demonstration purposes only.
 1. (See also [Mental Models and Computer Models](https://www.cs.cornell.edu/courses/cs5150/2019sp/slides/9-usability.pdf) page 11).
 
 
-  [1]: https://i.stack.imgur.com/Ye5M8.png
+  [1]: https://i.stack.imgur.com/VmTAN.png
