@@ -40,12 +40,15 @@ namespace radio_button_mutiselect
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             base.OnMouseUp(mevent);
-            var group =
-                Parent.Controls
-                .Cast<Control>()
-                .Where(_ => _ is RadioButtonMulti)
-                .Where(_ => ((RadioButtonMulti)_).Checked);
-            Parent.Text = string.Join(", ", group.Select(_ => _.Text));
+            if(Form.ActiveForm != null)
+            {
+                var group =
+                    Parent.Controls
+                    .Cast<Control>()
+                    .Where(_ => _ is RadioButtonMulti)
+                    .Where(_ => ((RadioButtonMulti)_).Checked);
+                Form.ActiveForm.Text = string.Join(", ", group.Select(_ => _.Text));
+            }
         }
     }
 }

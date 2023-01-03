@@ -2,7 +2,7 @@ The nice thing about Winforms is that you can almost always inherit a standard c
 
 That said, I would argue it's "intuitive enough" to hold down the [Control] modifier key as an accepted way to access multiselection when it's available, so that's the approach I'll take for a `RadioButtonMulti` class that can be swapped out in your designer file.
 
-[![multiselected][1]][1] _Control + Click to multiselect._
+[![multiselect][1]][1] _Control + Click to multiselect._
 
 ***
 Looking at the default behavior of a RadioButton as documented [here](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-group-windows-forms-radiobutton-controls-to-function-as-a-set).
@@ -42,20 +42,25 @@ This tells us what exactly what we need to do! _We need to temporarily make the 
                 base.OnMouseDown(mevent);
             }
         }
-        // Display checked buttons as title of group
+
+Display selection in main form title bar for demonstration purposes only.
+
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             base.OnMouseUp(mevent);
-            var group =
-                Parent.Controls
-                .Cast<Control>()
-                .Where(_ => _ is RadioButtonMulti)
-                .Where(_ => ((RadioButtonMulti)_).Checked);
-            Parent.Text = string.Join(", ", group.Select(_ => _.Text));
+            if(Form.ActiveForm != null)
+            {
+                var group =
+                    Parent.Controls
+                    .Cast<Control>()
+                    .Where(_ => _ is RadioButtonMulti)
+                    .Where(_ => ((RadioButtonMulti)_).Checked);
+                Form.ActiveForm.Text = string.Join(", ", group.Select(_ => _.Text));
+            }
         }
     }
 ***
-1. (See also [Mental Models and Computer Models](https://www.cs.cornell.edu/courses/cs5150/2019sp/slides/9-usability.pdf) page 8).
+1. (See also [Mental Models and Computer Models](https://www.cs.cornell.edu/courses/cs5150/2019sp/slides/9-usability.pdf) page 11).
 
 
-  [1]: https://i.stack.imgur.com/FFMbg.png
+  [1]: https://i.stack.imgur.com/Ye5M8.png

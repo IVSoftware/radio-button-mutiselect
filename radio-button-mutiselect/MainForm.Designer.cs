@@ -45,7 +45,7 @@
             this.groupBox1.Size = new System.Drawing.Size(240, 123);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Radio 1";
+            this.groupBox1.Text = "Control + CLick to Multiselect";
             // 
             // radioButton3
             // 
