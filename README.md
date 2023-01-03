@@ -1,6 +1,6 @@
-The nice thing about Winforms is that you can almost always make a custom version of a standard control with the functionality you want. The trick is to try and do it in a way that doesn't upend the expected behavior to the point that your user is frustrated when the UI behavior doesn't match their "mental model" of how it should work.
+The nice thing about Winforms is that you can almost always inherit a standard control to make a custom version with the functionality you want. The trick is to try and do it in a way that doesn't upend the expected behavior to the point that your user is frustrated when the UI doesn't match their **mental model**<sup>1</sup> of how it should work.
 
-That said, I would argue that it's "intuitive enough" that when a multiselection is intended that holding down the [Control] modifier key is an accepted way to access that. So let's add multiselect capability that way in a custom `RadioButtonMulti` class that can be swapped out in your designer file.
+That said, I would argue that it's "intuitive enough" that holding down the [Control] modifier key is an accepted way to access multiselection when it's available, so that's the approach I'll take for a `RadioButtonMulti` class that can be swapped out in your designer file.
 
 [![multiselected][1]][1] _Control + Click to multiselect._
 
@@ -9,7 +9,7 @@ Looking at the default behavior of a RadioButton as documented [here](https://le
 
 > You group radio buttons by drawing them inside a container such as a Panel control, a GroupBox control, or a form. All radio buttons that are added directly to a form become one group. 
 
-This tells us what exactly what we need to do! _We need to temporarily make the clicked butting think that it doesn't belong to any group._  Here's one way that I _tested_ that removes the control from its Parent.Controls collection while it toggles the `Checked` state.
+This tells us what exactly what we need to do! _We need to temporarily make the clicked button "think" that it doesn't belong to any group._  Here's one way that I [tested](https://github.com/IVSoftware/radio-button-mutiselect.git) that removes the control from its Parent.Controls collection while it toggles the `Checked` state.
 
     class RadioButtonMulti : RadioButton
     {
@@ -42,7 +42,20 @@ This tells us what exactly what we need to do! _We need to temporarily make the 
                 base.OnMouseDown(mevent);
             }
         }
+        // Display checked buttons as title of group
+        protected override void OnMouseUp(MouseEventArgs mevent)
+        {
+            base.OnMouseUp(mevent);
+            var group =
+                Parent.Controls
+                .Cast<Control>()
+                .Where(_ => _ is RadioButtonMulti)
+                .Where(_ => ((RadioButtonMulti)_).Checked);
+            Parent.Text = string.Join(", ", group.Select(_ => _.Text));
+        }
     }
+***
+1. (See also [Mental Models and Computer Models](https://www.cs.cornell.edu/courses/cs5150/2019sp/slides/9-usability.pdf) page 8).
 
 
-  [1]: https://i.stack.imgur.com/nRvHD.png
+  [1]: https://i.stack.imgur.com/FFMbg.png

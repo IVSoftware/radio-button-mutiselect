@@ -4,10 +4,6 @@ namespace radio_button_mutiselect
     public partial class MainForm : Form
     {
         public MainForm() => InitializeComponent();
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-        }
     }
     class RadioButtonMulti : RadioButton
     {
@@ -40,7 +36,7 @@ namespace radio_button_mutiselect
                 base.OnMouseDown(mevent);
             }
         }
-        // Display checked buttons as title og group
+        // Display checked buttons as title of group
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             base.OnMouseUp(mevent);
@@ -49,7 +45,7 @@ namespace radio_button_mutiselect
                 .Cast<Control>()
                 .Where(_ => _ is RadioButtonMulti)
                 .Where(_ => ((RadioButtonMulti)_).Checked);
-            Parent.Text = string.Join(",", group.Select(_ => _.Text));
+            Parent.Text = string.Join(", ", group.Select(_ => _.Text));
         }
     }
 }
