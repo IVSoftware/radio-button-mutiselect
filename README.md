@@ -1,6 +1,6 @@
 The nice thing about Winforms is that you can almost always make a custom version of a standard control with the functionality you want. The trick is to try and do it in a way that doesn't upend the expected behavior to the point that your user is frustrated when the UI behavior doesn't match their "mental model" of how it should work.
 
-That said, I would argue that it's "intuitive enough" that when a multiselection is intended that holding down the [Control] modifier key is an accepted way to access that. So let's add multiselect capability that way.
+That said, I would argue that it's "intuitive enough" that when a multiselection is intended that holding down the [Control] modifier key is an accepted way to access that. So let's add multiselect capability that way in a custom `RadioButtonMulti` class that can be swapped out in your designer file.
 
 [![multiselected][1]][1] _Control + Click to multiselect._
 
